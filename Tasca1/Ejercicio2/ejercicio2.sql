@@ -39,28 +39,28 @@ NumberPhone  char (10) not null,
 foreign key(localityId) references Locality(localityId)
 );
 
-create table if not exists Employee(
-employeeId int auto_increment primary key,
-employeeName varchar(50) not null,
-employeeLastnames varchar(100) not null,
-employeeNIF varchar(9) not null,
-employeePhone varchar(15) not null,
-employeeTypeId enum('cooker','dealer')not null
-);
-
 create table if not exists Orders(
 ordersId int auto_increment primary key,
 ordersDates datetime not null,
 ordersType enum('delivery','take away')not null,
 productsId int not null,
 costumerId int not null,
-shopId int not null,
-employeeId  int not null,
 localityId int ,
 foreign key(productsId) references Products(productsId),
 foreign key(costumerId) references Costumer(costumerId),
-foreign key(employeeId) references Employee(employeeId),
 foreign key(localityId) references Locality(localityId)
+
+);
+
+create table if not exists Employee(
+employeeId int auto_increment primary key,
+employeeName varchar(50) not null,
+employeeLastnames varchar(100) not null,
+employeeNIF varchar(9) not null,
+employeePhone varchar(15) not null,
+employeeTypeId enum('cooker','dealer')not null,
+orderId  int not null,
+foreign key (orderID) references orders(ordersID)
 );
 
 create table if not exists Store(
@@ -68,10 +68,9 @@ storeID int auto_increment primary key,
 storeName varchar(50) not null,
 storeAddress varchar(255) not null,
 postalCode varchar(5) not null,
-ordersId int not null,
 localityId int not null,
 employeeId int not null,
-foreign key (localityID) references Locality(localityId),
-foreign key (ordersId) references  Orders(ordersID),
-foreign key(employeeId) references Employee(employeeID)
+foreign key (employeeID) references Employee(EmployeeID),
+foreign key (localityID) references Locality(localityId)
+
 );
